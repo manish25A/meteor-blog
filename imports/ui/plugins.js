@@ -1,4 +1,9 @@
-import Vue from 'vue'
-import VueMeteorTracker from 'vue-meteor-tracker'
+import Vue from 'vue';
+import VueMeteorTracker from 'vue-meteor-tracker';
+import VueToast from 'vue-toast-notification';
+// Import one of the available themes
+//import 'vue-toast-notification/dist/theme-default.css';
+import 'vue-toast-notification/dist/theme-sugar.css';
 
-Vue.use(VueMeteorTracker)
+Vue.use(VueToast);
+Vue.use(VueMeteorTracker);

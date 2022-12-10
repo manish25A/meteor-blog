@@ -1,16 +1,15 @@
 <template>
 	<div>
-		<h1>Welcome to Meteor!</h1>
-		<hello />
+		<Nav></Nav>
 	</div>
 </template>
 
 <script>
-import Hello from './components/Hello.vue';
+import Nav from './components/Nav.vue';
 
 export default {
 	components: {
-		Hello,
+		Nav,
 	},
 };
 </script>
@@ -18,6 +17,5 @@ export default {
 <style>
 body {
 	font-family: sans-serif;
-	padding: 10px;
 }
 </style>
