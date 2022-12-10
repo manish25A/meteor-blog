@@ -14,7 +14,7 @@ export default {
 };
 </script>
 
-<style>
+<style lang="scss">
 body {
 	font-family: sans-serif;
 }

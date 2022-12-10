@@ -1,65 +1,86 @@
 <template>
-	<div class="app">
-		<button @click="expandSidebar($event)">button</button>
-		<!-- Sidebar -->
-		<Sidebar></Sidebar>
+	<div id="App">
+		<BootstrapSidebar
+			:initial-show="initialShow"
+			:links="links"
+			:header="header"
+			:fa="true"
+			@sidebarChanged="onSidebarChanged"
+		>
+			<template v-slot:navbar>
+				<b-navbar
+					id="mainNavbar"
+					toggleable="lg"
+					type="light"
+					variant="light"
+					fixed="top"
+				>
+					<b-navbar-nav>
+						<b-nav-item> Navbar </b-nav-item>
+					</b-navbar-nav>
+				</b-navbar>
+			</template>
 
-		<!-- Content -->
-		<router-view />
+			<template v-slot:content>
+				<b-container style="margin-top: 56px">
+					<router-view />
+				</b-container>
+			</template>
+		</BootstrapSidebar>
 	</div>
 </template>
 
+<style lang="scss">
+/* @import "node_modules/bootstrap/scss/bootstrap";
+@import "node_modules/bootstrap-vue/src/index.scss"; */
+@import 'node_modules/vue-bootstrap-sidebar/src/scss/default-theme.scss';
+</style>
+
+<style>
+body {
+	padding: 1rem;
+}
+</style>
+
 <script>
-import Sidebar from './Sidebar.vue';
+import BootstrapSidebar from 'vue-bootstrap-sidebar';
 export default {
+	components: {
+		BootstrapSidebar,
+	},
+	data() {
+		return {
+			initialShow: true,
+			header: '<h3>Sidebar</h3>',
+			links: [
+				{ name: 'Home', href: { name: 'home' }, faIcon: ['fas', 'home'] },
+				{
+					name: 'Dropdown',
+					faIcon: ['fas', 'tint'],
+					children: [
+						{
+							name: 'Child Item 1',
+							href: {
+								name: 'child-item-1',
+							},
+							faIcon: ['fas', 'child'],
+						},
+						{
+							name: 'Child Item 2',
+							href: {
+								name: 'child-item-2',
+							},
+							faIcon: ['fas', 'child'],
+						},
+					],
+				},
+				{ name: 'About', href: { name: 'about' }, faIcon: 'users' },
+				{ name: 'Contact', href: { name: 'contact' }, faIcon: 'phone' },
+			],
+		};
+	},
 	methods: {
-		expandSidebar(event) {
-			localStorage.setItem('is_expanded', true);
-		},
+		onSidebarChanged() {},
 	},
 };
 </script>
-
-<style lang="scss">
-:root {
-	--primary: #4ade80;
-	--primary-alt: #22c55e;
-	--grey: #64748b;
-	--dark: #1e293b;
-	--dark-alt: #334155;
-	--light: #f1f5f9;
-	--sidebar-width: 300px;
-}
-
-* {
-	margin: 0;
-	padding: 0;
-	box-sizing: border-box;
-	font-family: 'Fira sans', sans-serif;
-}
-
-body {
-	background: var(--light);
-}
-
-button {
-	cursor: pointer;
-	appearance: none;
-	border: none;
-	outline: none;
-	background: none;
-}
-
-.app {
-	display: flex;
-
-	main {
-		flex: 1 1 0;
-		padding: 2rem;
-
-		@media (max-width: 1024px) {
-			padding-left: 6rem;
-		}
-	}
-}
-</style>
