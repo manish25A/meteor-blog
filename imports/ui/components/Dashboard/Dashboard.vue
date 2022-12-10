@@ -1,5 +1,7 @@
 <template>
-	<h1>dashboard</h1>
+	<div>
+		<button class="btn-primary">Add Blog</button>
+	</div>
 </template>
 
 <style>
