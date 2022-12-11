@@ -1,22 +1,17 @@
 <template>
-	<div class="container">
-		<h1>Welcome to blog site {{ userName }}</h1>
+	<div class="container d-flex justify-content-center">
+		<h1>Welcome to Blog site</h1>
 	</div>
 </template>
 
 <script>
-import UserService from '../utils/services';
-
-import Vue from 'vue';
+import { Meteor } from 'meteor/meteor';
+import { Tracker } from 'meteor/tracker';
 export default {
 	data() {
 		return {
-			userName: null,
+			user: null,
 		};
-	},
-
-	beforeMount() {
-		this.userName = localStorage.getItem('user');
 	},
 };
 </script>

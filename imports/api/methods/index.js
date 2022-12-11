@@ -1,2 +1,1 @@
-import './createLink';
 import './userLink';

@@ -11,7 +11,7 @@
 					<b-nav-item to="/blogs" v-if="user">Blogs</b-nav-item>
 					<b-nav-item to="/login" v-if="!user">Login</b-nav-item>
 					<b-nav-item to="/dashboard" v-if="user">Dashboard</b-nav-item>
-					<b-nav-item to="/login" v-if="user">Logout</b-nav-item>
+					<b-nav-item @click="logout($event)" v-if="user">Logout</b-nav-item>
 				</b-navbar-nav>
 			</b-collapse>
 		</b-navbar>
@@ -22,13 +22,27 @@
 </template>
 
 <script>
-import UserService from '../utils/services';
-
+import { Meteor } from 'meteor/meteor';
+import { Tracker } from 'meteor/tracker';
 export default {
 	data() {
 		return {
-			user: localStorage.getItem('user'),
+			user: null,
 		};
+	},
+	created() {
+		Tracker.autorun(() => {
+			this.user = Meteor.userId();
+		});
+	},
+	methods: {
+		logout() {
+			localStorage.removeItem('user');
+			Meteor.logout();
+			if (this.$route.name !== '/') {
+				this.$router.push({ path: '/' });
+			}
+		},
 	},
 };
 </script>
