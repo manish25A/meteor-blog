@@ -1,6 +1,12 @@
 <template>
 	<div class="container d-flex">
-		<div v-for="{ name, description, slug } in adminBlogs">
+		<div v-if="blogs && !blogs.length">
+			<h1>No blogs found</h1>
+		</div>
+		<div
+			v-for="{ name, description, slug } in blogs"
+			v-if="blogs && blogs.length"
+		>
 			<b-card
 				:title="name ? name : 'N/A'"
 				tag="article"
@@ -12,7 +18,7 @@
 				</b-card-text>
 
 				<b-button @click="goToDetail(slug)" variant="primary" class="ml-0">
-					Go somewhere
+					Full Blog
 				</b-button>
 			</b-card>
 		</div>
@@ -34,9 +40,9 @@ export default {
 	},
 	meteor: {
 		$subscribe: {
-			adminBlogs: [],
+			blogs: [],
 		},
-		adminBlogs() {
+		blogs() {
 			const newBlogs = BlogsCollection.find().fetch();
 			newBlogs.map((x) => {
 				x.description =

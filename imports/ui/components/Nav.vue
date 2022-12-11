@@ -37,7 +37,6 @@ export default {
 	},
 	methods: {
 		logout() {
-			localStorage.removeItem('user');
 			Meteor.logout();
 			if (this.$route.name !== '/') {
 				this.router.push({ path: '/' });

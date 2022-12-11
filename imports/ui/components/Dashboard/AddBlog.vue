@@ -44,8 +44,10 @@ export default {
 			show: true,
 		};
 	},
-	created: function () {
-		this.user = localStorage.getItem('Meteor.userId');
+	created() {
+		Tracker.autorun(() => {
+			this.user = Meteor.userId();
+		});
 		if (this.data?.item) {
 			const { name, description, _id, userId } = this.data.item;
 			this.form.name = name;
@@ -57,7 +59,7 @@ export default {
 	methods: {
 		onSubmit(event) {
 			event.preventDefault();
-			this.form.userId = this.user._id;
+			this.form.userId = this.user;
 			this.form.slug = this.createSlug(this.form.name);
 			if (!this.form._id) {
 				Meteor.call('uploadBlog', this.form, (error, result) => {

@@ -1,7 +1,13 @@
 <template>
 	<div class="mt-2">
 		<h1>Your Blogs</h1>
-		<b-table :items="adminBlogs" :fields="fields" striped responsive="sm">
+		<b-table
+			:items="adminBlogs"
+			:fields="fields"
+			striped
+			responsive="sm"
+			v-if="adminBlogs"
+		>
 			<template #cell(update_details)="row">
 				<b-button size="sm" @click="row.toggleDetails" class="mr-2">
 					{{ row.detailsShowing ? 'Hide' : 'Show' }} Update Details
@@ -14,10 +20,12 @@
 				<AddBlog :data="row"></AddBlog>
 			</template>
 		</b-table>
+		<p v-if="adminBlogs && !adminBlogs.length">No Blogs Found</p>
 	</div>
 </template>
 
 <script>
+import { Meteor } from 'meteor/meteor';
 import { BlogsCollection } from '../../../api/collections/Blogs';
 import AddBlog from './AddBlog.vue';
 export default {
@@ -27,15 +35,17 @@ export default {
 
 	data() {
 		return {
+			user: null,
 			fields: ['name', 'description', 'update_details'],
 		};
 	},
+
 	meteor: {
 		$subscribe: {
 			adminBlogs: [],
 		},
 		adminBlogs() {
-			const newBlogs = BlogsCollection.find().fetch();
+			const newBlogs = BlogsCollection.find({}).fetch();
 			newBlogs.map(
 				(x) =>
 					(x.description =
