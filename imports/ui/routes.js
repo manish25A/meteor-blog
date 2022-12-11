@@ -7,12 +7,6 @@ import BlogsList from './components/Dashboard/BlogsList.vue';
 import Dashboard from './components/Dashboard/Dashboard.vue';
 import AddBlog from './components/Dashboard/AddBlog.vue';
 
-function checkAuthentication() {
-	const id = Meteor.userId();
-	if (id) {
-	}
-}
-
 const routes = [
 	{
 		path: '/',

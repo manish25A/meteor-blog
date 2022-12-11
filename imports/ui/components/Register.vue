@@ -43,7 +43,7 @@
 
 <script>
 import router from '../routes.js';
-import toast_constants, { ToastContainer } from '../utils/toast-constant.js';
+import { ToastContainer } from '../utils/toast-constant.js';
 export default {
 	data() {
 		return {
@@ -62,22 +62,22 @@ export default {
 			};
 			if (this.username === '' || this.password === '') {
 				this.emptyFields = true;
+				ToastContainer('Please enter all fields', 'warning');
+			} else if (this.username.includes('@')) {
+				ToastContainer('Please do not put  @ in username', 'warning');
 			} else {
 				Meteor.call('createUserLink', data, (error, result) => {
 					if (error) {
 						ToastContainer(result.reason, 'error');
 					} else {
-						if (result) {
+						if (result && result.warning) {
 							ToastContainer(
 								result.warning ? result.warning : 'Registered Successfully ',
 								result.warning ? 'warning' : 'success'
 							);
-						} else {
+						} else if (result && !result.warning) {
 							ToastContainer('Registered Successfully ', 'success');
-							router.push({
-								path: '/login',
-								params: { username: this.username },
-							});
+							router.push('/login');
 							this.username = '';
 							this.password = '';
 						}

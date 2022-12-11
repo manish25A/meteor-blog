@@ -40,7 +40,7 @@ export default {
 			localStorage.removeItem('user');
 			Meteor.logout();
 			if (this.$route.name !== '/') {
-				this.$router.push({ path: '/' });
+				this.router.push({ path: '/' });
 			}
 		},
 	},

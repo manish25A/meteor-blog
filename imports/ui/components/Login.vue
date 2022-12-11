@@ -29,11 +29,10 @@
 								>
 									Login
 								</button>
-								<p>
+								<p class="mt-3">
 									Don't have an account?
 									<router-link to="/register">Sign up here</router-link>
 								</p>
-								<p><a href="#">Forgot your password?</a></p>
 							</form>
 						</div>
 					</div>
