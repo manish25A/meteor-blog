@@ -1,40 +1,58 @@
 <template>
 	<div class="container d-flex">
-		<b-card
-			title="Card Title"
-			img-src="https://picsum.photos/600/300/?image=25"
-			img-alt="Image"
-			img-top
-			tag="article"
-			style="max-width: 20rem"
-			class="mb-2 me-2"
+		<div v-if="blogs && !blogs.length">
+			<h1>No blogs found</h1>
+		</div>
+		<div
+			v-for="{ name, description, slug } in blogs"
+			v-if="blogs && blogs.length"
 		>
-			<b-card-text>
-				Some quick example text to build on the card title and make up the bulk
-				of the card's content.
-			</b-card-text>
+			<b-card
+				:title="name ? name : 'N/A'"
+				tag="article"
+				style="max-width: 20rem"
+				class="mb-2 me-2"
+			>
+				<b-card-text>
+					{{ description ? description : 'N/A' }}
+				</b-card-text>
 
-			<b-button href="#" variant="primary">Go somewhere</b-button>
-		</b-card>
-		<b-card
-			title="Card Title"
-			img-src="https://picsum.photos/600/300/?image=25"
-			img-alt="Image"
-			img-top
-			tag="article"
-			style="max-width: 20rem"
-			class="mb-2"
-		>
-			<b-card-text>
-				Some quick example text to build on the card title and make up the bulk
-				of the card's content.
-			</b-card-text>
-
-			<b-button href="#" variant="primary">Go somewhere</b-button>
-		</b-card>
+				<b-button @click="goToDetail(slug)" variant="primary" class="ml-0">
+					Full Blog
+				</b-button>
+			</b-card>
+		</div>
 	</div>
 </template>
 
 <script>
-export default {};
+import { BlogsCollection } from '../../api/collections/Blogs';
+import router from '../routes';
+import SingleBlog from './SingleBlog.vue';
+export default {
+	components: {
+		SingleBlog,
+	},
+	methods: {
+		goToDetail(slug) {
+			router.push({ path: 'blog', query: { slug: slug } });
+		},
+	},
+	meteor: {
+		$subscribe: {
+			blogs: [],
+		},
+		blogs() {
+			const newBlogs = BlogsCollection.find().fetch();
+			newBlogs.map((x) => {
+				x.description =
+					x.description.length > 10
+						? x.description.substr(1, 10) + '...'
+						: x.description;
+				return x;
+			});
+			return newBlogs;
+		},
+	},
+};
 </script>

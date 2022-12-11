@@ -29,11 +29,10 @@
 								>
 									Login
 								</button>
-								<p>
+								<p class="mt-3">
 									Don't have an account?
 									<router-link to="/register">Sign up here</router-link>
 								</p>
-								<p><a href="#">Forgot your password?</a></p>
 							</form>
 						</div>
 					</div>
@@ -45,7 +44,6 @@
 
 <script>
 import { Meteor } from 'meteor/meteor';
-import UserService from '../utils/services';
 import router from '../routes';
 import { ToastContainer, toast_constants } from '../utils/toast-constant';
 export default {
@@ -69,8 +67,6 @@ export default {
 						console.log(error);
 						ToastContainer(error.reason, 'warning');
 					} else {
-						const user = UserService();
-						localStorage.setItem('user', user.username);
 						router.push('/');
 					}
 				});
